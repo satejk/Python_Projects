@@ -21,7 +21,7 @@ def median(seq):
     print med   
     
     
-seq = [7,3,1,4]
+seq = [7,3,1,4] # change the input to test the program.
 
 median(seq)    
     
