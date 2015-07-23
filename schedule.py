@@ -74,6 +74,22 @@ q.contents()
 
 
 
+def wait_state():
+    pass
 
+def ready_state()
+    pass
 
+def running_state():
+    pass
+
+while():
+    
+    wait_state()
+    
+    ready_state()
+    
+    runnning_state()
+    
+    
 
