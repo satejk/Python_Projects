@@ -255,8 +255,8 @@ def list_sort(superlist2):
     for i in range((len(superlist2) ) ):
         print superlist2[i]
         for j in  range((len(superlist2) )):
-
-            if(superlist2[i][1] > superlist2[j][1]):
+            #sort in ascending order
+            if(superlist2[i][1] < superlist2[j][1]):
                 print superlist2[i][1]
                 print superlist2[j][1]
                 temp_list = []
@@ -278,9 +278,19 @@ print "...................scheduler............"
 
 
 
+wait_queue = []
+
+ready_queue = []
+
+
+wait_temp = []
+
+
+
 
 def wait_state():
     print "wait_state"
+    #
 
 def ready_state():
     print "ready_state"
