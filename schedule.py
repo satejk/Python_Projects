@@ -1,5 +1,8 @@
 __author__ = 'satej'
 
+
+
+
 from math import *
 
 import sys
@@ -78,14 +81,38 @@ list2 = []
 
 list3 = []
 
+list4 = []
 
-# list4 = []
-# list5 = []
 
-superlist = [list1 , list2 , list3]
-print superlist
+list5 = []
 
-number_of_tasks = 3
+number_of_tasks = 0
+
+superlist = [list1 , list2 , list3 , list4 , list5]
+#print superlist
+print "*****************************RATE MONOTONIC SIMULATION TOOL*********************************"
+print
+print
+print "Task simulation  menu:"
+print "Select number of tasks as 3 or 5"
+while(1):
+    user_input = int(raw_input("Enter the number of tasks to be simulated"))
+
+    if(user_input == 3 ):
+        number_of_tasks = user_input
+        superlist = [list1 , list2 , list3 ]
+        break
+
+    elif(user_input == 5):
+        number_of_tasks = user_input
+        superlist = [list1 , list2 , list3 , list4 , list5]
+        break
+    else:
+        print "Please enter either 3 or 5"
+
+
+print
+
 print "Enter task set information for %d tasks:" % number_of_tasks
 task_set_user = []
 for i in range (number_of_tasks):
@@ -106,21 +133,22 @@ for i in range (number_of_tasks):
 
     task_set_user.append(task_t)
 
+print
+print
 
+print "***********************************************"
 
-print "*****************************************"
-
-print superlist
-
+#print superlist
+print
 print "Task set user information"
 
-task_set_user[0].displayTaskinfo()
-task_set_user[1].displayTaskinfo()
-task_set_user[2].displayTaskinfo()
+for i in range(number_of_tasks):
+    task_set_user[i].displayTaskinfo()
+
 
 print "************************************************"
 
-print 0%10
+#print 0%10
 
 
 
@@ -228,9 +256,6 @@ def LCM_list(list):
 
 
 
-utilization(task_set_user)
-
-print
 
 
 
@@ -239,13 +264,14 @@ print
 
 LCM_time =  LCM_list(task_set_user)
 
-print LCM_time
+
+print "LCM time :" + str(LCM_time)
 
 
 
 
-print "..........super list keeda..............."
-print superlist
+#print "..........super list keeda..............."
+#print superlist
 
 
 
@@ -271,15 +297,32 @@ def list_sort(superlist2):
 
 list_sort(superlist)
 
-print "sorted list"
-print superlist
+#print "sorted list"
+#print superlist
 
 
 display = []
 
-
-for x in range((number_of_tasks + 1)):
+task_bound = number_of_tasks + 1
+for x in range(task_bound):
     display.append(["."] * LCM_time)
+
+for i in range(task_bound):
+    for j in range(LCM_time):
+
+        if((j % superlist[0][2]) == 0):
+
+            display[i][(j-1)] = "|"
+
+        else:
+            display[i][j] = "."
+
+
+
+
+
+
+
 
 
 for i in range(LCM_time):
@@ -290,9 +333,12 @@ def print_display(display):
     for i in range(task_bound):
         for j in range(LCM_time):
 
-            if(i < (number_of_tasks) and j > 8):
+            if(i < (number_of_tasks) and j > 8 and j <= 99):
 
                 print " "+display[i][j],
+
+            elif(i < (number_of_tasks) and j > 99):
+                print "  " + display[i][j],
             else:
 
                 print display[i][j],
@@ -301,10 +347,13 @@ def print_display(display):
         print
 
     print
+print
+utilization(task_set_user)
+
+print
 
 
-
-print "...................scheduler............"
+print "...................RATE MONOTONIC scheduler Graph ........................"
 
 
 
@@ -321,20 +370,23 @@ ready_queue = []
 for tasks in superlist:
     wait_queue.append(tasks)
 
-print "wait_queue"
-print wait_queue
+#print "wait_queue"
+#print wait_queue
 
 time = 0 # simulation time
 
 task_display_time = 0
 
+task_timers = [0,0,0,0,0]
+#task_timers.append( 0 for x in range(number_of_tasks))
+
 
 
 def wait_state():
     wq_range= len(wait_queue)
-    print "wait state"
+    #print "wait state"
     global time
-    print
+    global task_display_time
     global wait_queue
     global  ready_queue
     if (len(wait_queue) != 0 ):
@@ -344,16 +396,17 @@ def wait_state():
         while task < (wq_range):
             #task +=1
             if(len(wait_queue) != 0):
-                print "task"
-                print task
+                #print "task"
+                #print task
                 if (( time %wait_queue[task][2])== 0):
-                    print (time % wait_queue[task][2])
+                    #print (time % wait_queue[task][2])
                     #engueue
                     ready_queue.append(wait_queue[task])
-                    print ready_queue
+                    task_display_time = 0 #reset at entry of higher priority task
+                    #print ready_queue
                     #dequeue
                     wait_queue.pop(task)
-                    print wait_queue
+                    #print wait_queue
 
                     wq_range  =    len(wait_queue)
                     task = 0
@@ -367,13 +420,13 @@ def wait_state():
     else:
         pass
 
-    print "wait_queue"
-    print wait_queue
-    print "ready_queue"
-    print ready_queue
+    #print "wait_queue"
+    #print wait_queue
+    #print "ready_queue"
+    #print ready_queue
 
 def ready_state():
-    print "ready_state"
+    #print "ready_state"
     # sort the ready queue
     global ready_queue
     list_sort(ready_queue)
@@ -381,7 +434,7 @@ def ready_state():
 
 
 def running_state():
-    print "running_state"
+    #print "running_state"
     global task_display_time
     global wait_queue
     global ready_queue
@@ -391,29 +444,37 @@ def running_state():
 
         running_task = ready_queue[0]
 
+        display[superlist.index(running_task)][time] = running_task[0]
 
 
-        task_display_time += 1
-
-        if(task_display_time == running_task[1]):
-            #engueue in wait_queue
-            wait_queue.append(running_task)
-            #dequeue from ready_queue
-
-            ready_queue.pop(0)
+        #task_display_time += 1
+        for i in range(number_of_tasks):
 
 
-            task_display_time = 0
+            if(running_task == superlist[i]):
+                task_timers[i] +=1
 
-        else:
+                if (task_timers[i] == running_task[1]):
+                    #engueue in wait_queue
+                    wait_queue.append(running_task)
+                    #dequeue from ready_queue
 
-            display[superlist.index(running_task)][time] = running_task[0]
+                    ready_queue.pop(0)
+
+                    task_timers[i] = 0
+                    #task_display_time = 0
+                else:
+                    pass
+            else:
+                pass
+
+
 
 
 while(time < LCM_time):
 
     global time
-    print time
+    #print time
 
     wait_state()
 
@@ -428,3 +489,4 @@ while(time < LCM_time):
 
 
 print_display(display)
+#print task_timers
