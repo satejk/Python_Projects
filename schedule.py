@@ -118,7 +118,9 @@ task_set_user[0].displayTaskinfo()
 task_set_user[1].displayTaskinfo()
 task_set_user[2].displayTaskinfo()
 
+print "************************************************"
 
+print 0%10
 
 
 
@@ -253,12 +255,12 @@ print superlist
 def list_sort(superlist2):
 
     for i in range((len(superlist2) ) ):
-        print superlist2[i]
+        #print superlist2[i]
         for j in  range((len(superlist2) )):
             #sort in ascending order
             if(superlist2[i][1] < superlist2[j][1]):
-                print superlist2[i][1]
-                print superlist2[j][1]
+                #print superlist2[i][1]
+                #print superlist2[j][1]
                 temp_list = []
                 temp_list = superlist2[i]
                 superlist2[i] = superlist2[j]
@@ -273,48 +275,6 @@ print "sorted list"
 print superlist
 
 
-
-print "...................scheduler............"
-
-
-
-wait_queue = []
-
-ready_queue = []
-
-
-wait_temp = []
-
-
-
-
-def wait_state():
-    print "wait_state"
-    #
-
-def ready_state():
-    print "ready_state"
-
-def running_state():
-    print "running_state"
-
-
-
-
-time = 0
-while(time < LCM_time):
-
-
-    wait_state()
-
-    ready_state()
-
-    running_state()
-
-    time += 1
-
-
-
 display = []
 
 
@@ -323,7 +283,7 @@ for x in range((number_of_tasks + 1)):
 
 
 for i in range(LCM_time):
-    display[3][i] = "%d" % ( i + 1 )
+    display[number_of_tasks][i] = "%d" % ( i + 1 )
 
 def print_display(display):
     task_bound = number_of_tasks + 1
@@ -341,6 +301,130 @@ def print_display(display):
         print
 
     print
+
+
+
+print "...................scheduler............"
+
+
+
+wait_queue = []
+
+ready_queue = []
+
+
+#wait_temp = []
+
+
+#append all the tasks to wait_queue
+
+for tasks in superlist:
+    wait_queue.append(tasks)
+
+print "wait_queue"
+print wait_queue
+
+time = 0 # simulation time
+
+task_display_time = 0
+
+
+
+def wait_state():
+    wq_range= len(wait_queue)
+    print "wait state"
+    global time
+    print
+    global wait_queue
+    global  ready_queue
+    if (len(wait_queue) != 0 ):
+        list_sort(wait_queue)
+        # check for time % period = 0
+        task = 0
+        while task < (wq_range):
+            #task +=1
+            if(len(wait_queue) != 0):
+                print "task"
+                print task
+                if (( time %wait_queue[task][2])== 0):
+                    print (time % wait_queue[task][2])
+                    #engueue
+                    ready_queue.append(wait_queue[task])
+                    print ready_queue
+                    #dequeue
+                    wait_queue.pop(task)
+                    print wait_queue
+
+                    wq_range  =    len(wait_queue)
+                    task = 0
+
+                else:
+                    task +=1
+
+            else:
+                break
+
+    else:
+        pass
+
+    print "wait_queue"
+    print wait_queue
+    print "ready_queue"
+    print ready_queue
+
+def ready_state():
+    print "ready_state"
+    # sort the ready queue
+    global ready_queue
+    list_sort(ready_queue)
+
+
+
+def running_state():
+    print "running_state"
+    global task_display_time
+    global wait_queue
+    global ready_queue
+    #get the running task from ready queue
+    #running_task = []
+    if(len(ready_queue) != 0):
+
+        running_task = ready_queue[0]
+
+
+
+        task_display_time += 1
+
+        if(task_display_time == running_task[1]):
+            #engueue in wait_queue
+            wait_queue.append(running_task)
+            #dequeue from ready_queue
+
+            ready_queue.pop(0)
+
+
+            task_display_time = 0
+
+        else:
+
+            display[superlist.index(running_task)][time] = running_task[0]
+
+
+while(time < LCM_time):
+
+    global time
+    print time
+
+    wait_state()
+
+    ready_state()
+
+    running_state()
+
+    time += 1
+
+
+
 
 
 print_display(display)
