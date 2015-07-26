@@ -1,5 +1,5 @@
 __author__ = 'satej'
-/*
+"""
  * This file is part of my Distributed Real Time Systems LAB.
  *
  * 
@@ -22,7 +22,7 @@ __author__ = 'satej'
  *
  * be warned, this file is to used for education purpose only
  */
-
+"""
 
 
 
