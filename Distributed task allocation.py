@@ -117,7 +117,7 @@ list8 = []
 
 
 
-number_of_tasks = 3
+number_of_tasks = 8
 
 #superlist = [list1 , list2 , list3 , list4 , list5 , list6, list 7, list8]
 superlist = [list1 , list2 , list3 ]
@@ -131,7 +131,7 @@ print
 print
 print "Task simulation  menu:"
 
-
+"""
 print
 
 print "Enter task set information for %d tasks:" % number_of_tasks
@@ -156,25 +156,36 @@ for i in range (number_of_tasks):
 
 print
 print
-
+"""
 print "***********************************************"
 
 #print superlist
 
 print
 print "Task set user information"
-"""
+
 # task set 1
 task_set_user = []
 #task_info(name, computime , period)
-task1 = Task_info("A", 1, 8)
-task_set_1.append(task1)
-task2 = Task_info("B", 2, 5)
-task_set_1.append(task2)
-task3 = Task_info("C", 2, 10)
-task_set_1.append(task3)
+task1 = Task_info("A", 5, 10)
+task_set_user.append(task1)
+task2 = Task_info("B", 7, 21)
+task_set_user.append(task2)
+task3 = Task_info("C", 3, 22)
+task_set_user.append(task3)
+task4 = Task_info("D", 1, 24)
+task_set_user.append(task4)
+task5 = Task_info("E", 10, 30)
+task_set_user.append(task5)
+task6 = Task_info("F", 16, 40)
+task_set_user.append(task6)
+task7 = Task_info("G", 1, 50)
+task_set_user.append(task7)
+task8 = Task_info("H", 3, 55)
+task_set_user.append(task8)
 
-#task set 2
+
+"""#task set 2
 task_set_2 = []
 
 task1 = Task_info("A", 5, 5)
@@ -187,6 +198,7 @@ task_set_2.append(task3)
 
 """
 
+print task_set_user
 
 for i in range(number_of_tasks):
     task_set_user[i].displayTaskinfo()
