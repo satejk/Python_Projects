@@ -119,8 +119,8 @@ list8 = []
 
 number_of_tasks = 8
 
-#superlist = [list1 , list2 , list3 , list4 , list5 , list6, list 7, list8]
-superlist = [list1 , list2 , list3 ]
+superlist = [list1 , list2 , list3 , list4 , list5 , list6, list7, list8]
+#superlist = [list1 , list2 , list3 ]
 display = []
 
 
@@ -166,25 +166,52 @@ print "Task set user information"
 
 # task set 1
 task_set_user = []
+
 #task_info(name, computime , period)
 task1 = Task_info("A", 5, 10)
 task_set_user.append(task1)
+superlist[0].append("A")
+superlist[0].append(int(5))
+superlist[0].append(int(10))
 task2 = Task_info("B", 7, 21)
 task_set_user.append(task2)
+superlist[1].append("B")
+superlist[1].append(int(7))
+superlist[1].append(int(21))
+
 task3 = Task_info("C", 3, 22)
 task_set_user.append(task3)
+superlist[2].append("C")
+superlist[2].append(int(3))
+superlist[2].append(int(22))
+
 task4 = Task_info("D", 1, 24)
 task_set_user.append(task4)
+superlist[3].append("D")
+superlist[3].append(int(1))
+superlist[3].append(int(24))
 task5 = Task_info("E", 10, 30)
 task_set_user.append(task5)
+superlist[4].append("E")
+superlist[4].append(int(10))
+superlist[4].append(int(30))
+
 task6 = Task_info("F", 16, 40)
 task_set_user.append(task6)
+superlist[5].append("F")
+superlist[5].append(int(16))
+superlist[5].append(int(40))
+
 task7 = Task_info("G", 1, 50)
 task_set_user.append(task7)
+superlist[6].append("G")
+superlist[6].append(int(1))
+superlist[6].append(int(50))
 task8 = Task_info("H", 3, 55)
 task_set_user.append(task8)
-
-
+superlist[7].append("H")
+superlist[7].append(int(3))
+superlist[7].append(int(55))
 """#task set 2
 task_set_2 = []
 
@@ -198,7 +225,7 @@ task_set_2.append(task3)
 
 """
 
-print task_set_user
+print superlist
 
 for i in range(number_of_tasks):
     task_set_user[i].displayTaskinfo()
@@ -320,9 +347,9 @@ list_sort(superlist)
 
 
 
-def display_init():
+def display_init(task_set):
     global display
-    global number_of_tasks
+    number_of_tasks = len(task_set)
     task_bound = number_of_tasks + 1
     for x in range(task_bound):
         display.append(["."] * LCM_time)
@@ -345,8 +372,8 @@ def display_init():
 #---------display init function-------------
 
 
-def print_display(display):
-
+def print_display(display , task_set):
+    number_of_tasks = len(task_set)
     task_bound = number_of_tasks + 1
     for i in range(task_bound):
         for j in range(LCM_time):
@@ -377,7 +404,34 @@ utilization(task_set_user)
 
 #distributed task allocation algorithm
 
+#(nroot(lenght, 2) - 1)
 
+def task_distribution(procs , superlist):
+
+    megalist = [[] for x in range(procs)]
+
+    print megalist
+
+    Ui = 0
+
+    for i in range(len(superlist)):
+
+        Ui = (float(superlist[i][1])/superlist[i][2])
+        print Ui
+        for j in range(procs):
+
+            if( (nroot((j+2),2) - 1 )< Ui <=  (nroot((j+1),2) - 1 )) :
+                print j
+                megalist[j].append(superlist[i])
+
+            else:
+                #print j
+                #print "Task not allocated" + str(superlist[i])
+                pass
+
+    for i in range(procs):
+
+        print megalist[i]
 
 
 
@@ -512,7 +566,7 @@ def simulator(superlist):
 
     task_display_time = 0
 
-    task_timers = [0,0,0,0,0]
+    task_timers = [0,0,0,0,0,0,0,0]
 
     while(time < LCM_time):
 
@@ -530,8 +584,15 @@ def simulator(superlist):
 
 #call wrapper functions
 
-display_init()
+task_distribution(4,superlist)
+
+display_init(superlist)
+
+
+
+"""
 simulator(superlist)
 
-print_display(display)
+print_display(display,superlist)
 #print task_timers
+"""
