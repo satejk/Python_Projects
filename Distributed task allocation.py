@@ -294,7 +294,7 @@ def LCM_list(list):
     list_lcm = []
 
     for i in range(len(list)):
-        list_lcm.append(list[i].getPeriod())
+        list_lcm.append(list[i][2])
 
 
     return reduce(lcm, list_lcm)
@@ -322,7 +322,7 @@ def LCM_list(list):
 
 
 def list_sort(superlist2):
-
+    #print superlist
     for i in range((len(superlist2) ) ):
         #print superlist2[i]
         for j in  range((len(superlist2) )):
@@ -348,7 +348,9 @@ list_sort(superlist)
 
 
 def display_init(task_set):
+    LCM_time = LCM_list(task_set)
     global display
+    display = []
     number_of_tasks = len(task_set)
     task_bound = number_of_tasks + 1
     for x in range(task_bound):
@@ -357,7 +359,7 @@ def display_init(task_set):
     for i in range(task_bound):
         for j in range(LCM_time):
 
-            if((j % superlist[0][2]) == 0):
+            if((j % task_set[0][2]) == 0):
 
                 display[i][(j-1)] = "|"
 
@@ -373,6 +375,7 @@ def display_init(task_set):
 
 
 def print_display(display , task_set):
+    LCM_time = LCM_list(task_set)
     number_of_tasks = len(task_set)
     task_bound = number_of_tasks + 1
     for i in range(task_bound):
@@ -394,10 +397,10 @@ def print_display(display , task_set):
     print
 print
 
-LCM_time =  LCM_list(task_set_user)
+#LCM_time =  LCM_list(task_set_user)
 
 
-print "LCM time :" + str(LCM_time)
+#print "LCM time :" + str(LCM_time)
 
 utilization(task_set_user)
 
@@ -417,12 +420,18 @@ def task_distribution(procs , superlist):
     for i in range(len(superlist)):
 
         Ui = (float(superlist[i][1])/superlist[i][2])
-        print Ui
+        #print str(Ui) + superlist[i][0]
         for j in range(procs):
-
+            #print j
             if( (nroot((j+2),2) - 1 )< Ui <=  (nroot((j+1),2) - 1 )) :
-                print j
+
                 megalist[j].append(superlist[i])
+
+            elif(j == (procs - 1)):
+                    if( 0   < Ui <=  (nroot((j+1),2) - 1 )):
+
+
+                        megalist[j].append(superlist[i])
 
             else:
                 #print j
@@ -432,6 +441,8 @@ def task_distribution(procs , superlist):
     for i in range(procs):
 
         print megalist[i]
+
+    return megalist
 
 
 
@@ -504,13 +515,13 @@ def ready_state(ready_queue):
 
 
 
-def running_state(time,task_display_time,wait_queue, ready_queue,task_timers):
+def running_state(time,task_display_time,wait_queue, ready_queue,task_timers,superlist):
     #print "running_state"
     #global task_display_time
     #global wait_queue
     #global ready_queue
     #get the running task from ready queue
-    #running_task = []
+    number_of_tasks = len(superlist)
     if(len(ready_queue) != 0):
 
         running_task = ready_queue[0]
@@ -544,8 +555,9 @@ def running_state(time,task_display_time,wait_queue, ready_queue,task_timers):
 #display_init()
 
 def simulator(superlist):
+    #print superlist
 
-
+    LCM_time = LCM_list(superlist)
     wait_queue = []
 
     ready_queue = []
@@ -577,22 +589,27 @@ def simulator(superlist):
 
         ready_state(ready_queue)
 
-        running_state(time ,task_display_time,wait_queue, ready_queue,task_timers)
+        running_state(time ,task_display_time,wait_queue, ready_queue,task_timers,superlist)
 
         time += 1
 
 
 #call wrapper functions
 
-task_distribution(4,superlist)
+megalist = task_distribution(4,superlist)
 
-display_init(superlist)
+for i in range(len(megalist)):
+   print "PROCESSOR" + " " + str(i + 1)
+   print
+   print megalist[i]
+   if((len(megalist[i]) > 0) and (LCM_list(megalist[i]) < 1000) ):
 
 
+        display_init(megalist[i])
 
-"""
-simulator(superlist)
+        simulator(megalist[i])
+        print_display(display,megalist[i])
 
-print_display(display,superlist)
-#print task_timers
-"""
+   else:
+       print "list is either empty or LCM is > 1000"
+
