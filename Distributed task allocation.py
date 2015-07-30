@@ -337,6 +337,20 @@ def list_sort(superlist2):
 
 
 
+def list_sort_mod(superlist2):
+    #print superlist
+    for i in range((len(superlist2) ) ):
+        #print superlist2[i]
+        for j in  range((len(superlist2) )):
+            #sort in ascending order
+            if(superlist2[i][1] < superlist2[j][1] or len(superlist2[j]) == 0 or len(superlist2[i]) == 0):
+                #print superlist2[i][1]
+                #print superlist2[j][1]
+
+                temp_list = superlist2[i]
+                superlist2[i] = superlist2[j]
+                superlist2[j] = temp_list
+
 
 list_sort(superlist)
 
@@ -446,10 +460,68 @@ def task_distribution(procs , superlist):
 
 
 
+def list_util(list):
+
+    sum_util = 0
+    u = 0
+    for i in range(len(list)):
+
+        if(len(list[i]) != 0):
+            u = float((list[i][1]/list[i][2]))
+            sum_util += u
+
+
+
+    return sum_util
+
 
 #--------------------------------------
 
+def util_sort(superlist):
 
+    for i in range(len(superlist)):
+
+        ui = list_util(superlist[i])
+
+        for j in range(len(superlist)):
+
+            uj = list_util(superlist[j])
+
+            if((ui > uj )or (len(superlist[i]) == 0) or (len(superlist[j]) == 0)) :
+
+                temp_list = superlist[i]
+                superlist[i] = superlist[j]
+                superlist[j] = temp_list
+
+
+    return superlist
+
+
+def distributed_task_alloc(procs , superlist):
+
+    megalist = [[] for x in range(procs)]
+    sorted_megalist = [[] for x in range(procs)]
+
+    print megalist
+
+
+
+    for i in range(len(superlist)):
+
+        megalist = util_sort(megalist)
+        print megalist
+
+        #if(list_util(megalist[j]))
+        megalist[0].append(superlist[i])
+
+
+
+
+    for i in range(procs):
+
+        print megalist[i]
+
+    return megalist
 
 
 
@@ -613,3 +685,7 @@ for i in range(len(megalist)):
    else:
        print "list is either empty or LCM is > 1000"
 
+print "distributed task alloc"
+
+
+distributed_task_alloc(4,superlist)
