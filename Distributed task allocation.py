@@ -465,12 +465,12 @@ def list_util(list):
     sum_util = 0
     u = 0
     for i in range(len(list)):
+        #print list[i]
+        #if(len(list[i]) != 0):
+        u = float((float(list[i][1])/float(list[i][2])))
+        sum_util += u
 
-        if(len(list[i]) != 0):
-            u = float((list[i][1]/list[i][2]))
-            sum_util += u
-
-
+    #print sum_util
 
     return sum_util
 
@@ -487,7 +487,7 @@ def util_sort(superlist):
 
             uj = list_util(superlist[j])
 
-            if((ui > uj )or (len(superlist[i]) == 0) or (len(superlist[j]) == 0)) :
+            if((ui < uj )):  #or (len(superlist[i]) == 0) or (len(superlist[j]) == 0)) :
 
                 temp_list = superlist[i]
                 superlist[i] = superlist[j]
@@ -504,12 +504,13 @@ def distributed_task_alloc(procs , superlist):
 
     print megalist
 
+    list_sort(superlist)
 
 
     for i in range(len(superlist)):
 
         megalist = util_sort(megalist)
-        print megalist
+        #print megalist
 
         #if(list_util(megalist[j]))
         megalist[0].append(superlist[i])
@@ -518,9 +519,11 @@ def distributed_task_alloc(procs , superlist):
 
 
     for i in range(procs):
+        print
 
         print megalist[i]
-
+        print list_util(megalist[i])
+        print
     return megalist
 
 
@@ -688,4 +691,4 @@ for i in range(len(megalist)):
 print "distributed task alloc"
 
 
-distributed_task_alloc(4,superlist)
+distributed_task_alloc(8,superlist)
