@@ -131,32 +131,95 @@ print
 print
 print "Task simulation  menu:"
 
-"""
-print
 
-print "Enter task set information for %d tasks:" % number_of_tasks
+print
 task_set_user = []
-for i in range (number_of_tasks):
 
-    #get input from user for task name , compute time and period
-    task_name = raw_input("Enter the name of the %dth task" % (i+1))
-    compute_time = int(raw_input("Enter the Compute time of the %dth task" % (i+1)))
-    period_time = int(raw_input("Enter the Period  of the %dth task" % (i+1)))
+while(1):
+    select = int(raw_input("Enter 1 for Default test case and 2 for user input : "))
+    if(select == 2):
 
-    superlist[i].append(task_name)
-    superlist[i].append(int(compute_time))
-    superlist[i].append(int(period_time))
+        print "Enter task set information for %d tasks:" % number_of_tasks
+
+        for i in range (number_of_tasks):
+
+            #get input from user for task name , compute time and period
+            task_name = raw_input("Enter the name of the %dth task" % (i+1))
+            compute_time = int(raw_input("Enter the Compute time of the %dth task" % (i+1)))
+            period_time = int(raw_input("Enter the Period  of the %dth task" % (i+1)))
+
+            superlist[i].append(task_name)
+            superlist[i].append(int(compute_time))
+            superlist[i].append(int(period_time))
 
 
 
-    # append the task to task_set_user
-    task_t = Task_info(task_name,compute_time,period_time)
+            # append the task to task_set_user
+            task_t = Task_info(task_name,compute_time,period_time)
 
-    task_set_user.append(task_t)
+            task_set_user.append(task_t)
+
+        break
+
+    elif(select == 1):
+            # task set 1
+
+
+        #task_info(name, computime , period)
+        task1 = Task_info("A", 5, 10)
+        task_set_user.append(task1)
+        superlist[0].append("A")
+        superlist[0].append(int(5))
+        superlist[0].append(int(10))
+        task2 = Task_info("B", 7, 21)
+        task_set_user.append(task2)
+        superlist[1].append("B")
+        superlist[1].append(int(7))
+        superlist[1].append(int(21))
+
+        task3 = Task_info("C", 3, 22)
+        task_set_user.append(task3)
+        superlist[2].append("C")
+        superlist[2].append(int(3))
+        superlist[2].append(int(22))
+
+        task4 = Task_info("D", 1, 24)
+        task_set_user.append(task4)
+        superlist[3].append("D")
+        superlist[3].append(int(1))
+        superlist[3].append(int(24))
+        task5 = Task_info("E", 10, 30)
+        task_set_user.append(task5)
+        superlist[4].append("E")
+        superlist[4].append(int(10))
+        superlist[4].append(int(30))
+
+        task6 = Task_info("F", 16, 40)
+        task_set_user.append(task6)
+        superlist[5].append("F")
+        superlist[5].append(int(16))
+        superlist[5].append(int(40))
+
+        task7 = Task_info("G", 1, 50)
+        task_set_user.append(task7)
+        superlist[6].append("G")
+        superlist[6].append(int(1))
+        superlist[6].append(int(50))
+        task8 = Task_info("H", 3, 55)
+        task_set_user.append(task8)
+        superlist[7].append("H")
+        superlist[7].append(int(3))
+        superlist[7].append(int(55))
+
+        break
+
+    else:
+        print "Please enter valid input 1 or 2"
+
 
 print
 print
-"""
+
 print "***********************************************"
 
 #print superlist
@@ -164,66 +227,7 @@ print "***********************************************"
 print
 print "Task set user information"
 
-# task set 1
-task_set_user = []
 
-#task_info(name, computime , period)
-task1 = Task_info("A", 5, 10)
-task_set_user.append(task1)
-superlist[0].append("A")
-superlist[0].append(int(5))
-superlist[0].append(int(10))
-task2 = Task_info("B", 7, 21)
-task_set_user.append(task2)
-superlist[1].append("B")
-superlist[1].append(int(7))
-superlist[1].append(int(21))
-
-task3 = Task_info("C", 3, 22)
-task_set_user.append(task3)
-superlist[2].append("C")
-superlist[2].append(int(3))
-superlist[2].append(int(22))
-
-task4 = Task_info("D", 1, 24)
-task_set_user.append(task4)
-superlist[3].append("D")
-superlist[3].append(int(1))
-superlist[3].append(int(24))
-task5 = Task_info("E", 10, 30)
-task_set_user.append(task5)
-superlist[4].append("E")
-superlist[4].append(int(10))
-superlist[4].append(int(30))
-
-task6 = Task_info("F", 16, 40)
-task_set_user.append(task6)
-superlist[5].append("F")
-superlist[5].append(int(16))
-superlist[5].append(int(40))
-
-task7 = Task_info("G", 1, 50)
-task_set_user.append(task7)
-superlist[6].append("G")
-superlist[6].append(int(1))
-superlist[6].append(int(50))
-task8 = Task_info("H", 3, 55)
-task_set_user.append(task8)
-superlist[7].append("H")
-superlist[7].append(int(3))
-superlist[7].append(int(55))
-"""#task set 2
-task_set_2 = []
-
-task1 = Task_info("A", 5, 5)
-task_set_2.append(task1)
-task2 = Task_info("B", 1, 1)
-task_set_2.append(task2)
-task3 = Task_info("C", 2, 2)
-task_set_2.append(task3)
-
-
-"""
 
 print superlist
 
@@ -512,8 +516,12 @@ def distributed_task_alloc(procs , superlist):
         megalist = util_sort(megalist)
         #print megalist
 
-        #if(list_util(megalist[j]))
-        megalist[0].append(superlist[i])
+        if(list_util(megalist[0]) < 0.7):
+            megalist[0].append(superlist[i])
+
+        else:
+            print "Task not allocated " + str(superlist[i])
+
 
 
 
@@ -670,25 +678,48 @@ def simulator(superlist):
 
 
 #call wrapper functions
+def Distributed_task_allocation(proc, list):
 
-megalist = task_distribution(4,superlist)
+    megalist = task_distribution(proc,list)
 
-for i in range(len(megalist)):
-   print "PROCESSOR" + " " + str(i + 1)
-   print
-   print megalist[i]
-   if((len(megalist[i]) > 0) and (LCM_list(megalist[i]) < 1000) ):
-
-
-        display_init(megalist[i])
-
-        simulator(megalist[i])
-        print_display(display,megalist[i])
-
-   else:
-       print "list is either empty or LCM is > 1000"
-
-print "distributed task alloc"
+    for i in range(len(megalist)):
+       print "PROCESSOR" + " " + str(i + 1)
+       print
+       print megalist[i]
+       if((len(megalist[i]) > 0) and (LCM_list(megalist[i]) < 1000) ):
 
 
-distributed_task_alloc(8,superlist)
+            display_init(megalist[i])
+
+            simulator(megalist[i])
+            print_display(display,megalist[i])
+
+       else:
+           print "list is either empty or LCM is > 1000"
+
+
+    print
+    print
+    print "********************* Distributed task allocation *****************************************"
+
+
+    megalist2 = distributed_task_alloc(proc,list)
+
+    for i in range(len(megalist2)):
+       print "PROCESSOR" + " " + str(i + 1)
+       print
+       print megalist2[i]
+       if((len(megalist2[i]) > 0) and (LCM_list(megalist2[i]) < 1000) ):
+
+
+            display_init(megalist2[i])
+
+            simulator(megalist2[i])
+            print_display(display,megalist2[i])
+
+       else:
+           print "list is either empty or LCM is > 1000"
+
+
+
+Distributed_task_allocation(8,superlist)
